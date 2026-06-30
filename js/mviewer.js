@@ -90,12 +90,7 @@ mviewer = (function () {
     _applyPermalink();
     _applyUrlParameters();
     //Get backgroundlayer value if exists
-    if (
-      API.lb &&
-      $.grep(_backgroundLayers, function (n) {
-        return n.get("blid") === API.lb;
-      })[0]
-    ) {
+    if (API.lb && _backgroundLayers.find((n) => n.get("blid") === API.lb)) {
       mviewer.setBaseLayer(API.lb);
     } else {
       mviewer.setBaseLayer(configuration.getDefaultBaseLayer());
@@ -943,9 +938,10 @@ mviewer = (function () {
    */
 
   var _getLayerByName = function (name) {
-    return $.grep(_map.getLayers().getArray(), function (layer, i) {
-      return layer.get("name") === name;
-    })[0];
+    return _map
+      .getLayers()
+      .getArray()
+      .find((layer) => layer.get("name") === name);
   };
 
   var _processLayer = function (oLayer, l) {
@@ -1349,12 +1345,9 @@ mviewer = (function () {
     initMenu();
     // Open theme item if set to collapsed=false
     if (configuration.getConfiguration().themes.theme !== undefined) {
-      var expanded_theme = $.grep(
-        configuration.getConfiguration().themes.theme,
-        function (obj) {
-          return obj.collapsed === "false";
-        }
-      );
+      const expanded_theme = configuration
+        .getConfiguration()
+        .themes.theme.filter((obj) => obj.collapsed === "false");
       if (expanded_theme.length > 0) {
         $(`#theme-layers-${expanded_theme[0].id}>a`).click();
       }
