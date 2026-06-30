@@ -1315,7 +1315,7 @@ var info = (function () {
   var _getAlias = function (value, aliases, fields) {
     var alias = "";
     if (aliases) {
-      alias = aliases[$.inArray(value, fields)];
+      alias = aliases[fields.indexOf(value)];
     } else {
       alias = value.substring(0, 1).toUpperCase() + value.substring(1, 50).toLowerCase();
     }

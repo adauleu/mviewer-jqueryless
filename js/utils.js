@@ -90,7 +90,7 @@ var utils = (function () {
     layers.forEach(function (layer) {
       if (layer) {
         var name = layer.name;
-        if ($.inArray(name, duplicates)) {
+        if (duplicates.indexOf(name) > -1) {
           duplicates.push(name);
         } else {
           test = 0;
