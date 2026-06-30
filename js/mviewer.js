@@ -2237,10 +2237,11 @@ mviewer = (function () {
           },
         });
       } else {
-        $.when($.getJSON(defaultFile), $.getJSON(extraFile)).then(
-          function (a, b) {
-            var globalDic = a[0];
-            var extraDic = b[0];
+        Promise.all([
+          fetch(defaultFile).then((r) => r.json()),
+          fetch(extraFile).then((r) => r.json()),
+        ]).then(
+          function ([globalDic, extraDic]) {
             $.extend(true, globalDic, extraDic);
             _configureTranslate(globalDic);
           },
